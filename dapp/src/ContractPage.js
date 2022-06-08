@@ -37,9 +37,14 @@ function ContractPage() {
 
     const updateEthers = () => {
         console.log('=== updateEthers ===');
+
+        // MetaMask injects a Web3 Provider as "web3.currentProvider", so
+        // we can wrap it up in the ethers.js Web3Provider, which wraps a
+        // Web3 Provider and exposes the ethers.js Provider API.
         let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
         setProvider(tempProvider);
 
+        // There is only ever up to one account in MetaMask exposed
         let tempSigner = tempProvider.getSigner();
         setSigner(tempSigner);
 
@@ -49,13 +54,10 @@ function ContractPage() {
         console.log('tempProvider: ', provider);
         console.log('tempSigner: ', signer);
         console.log('tempContract: ', contract);
-
-             
     }
 
     const getCurrentVal = async () => {
         updateEthers();
-
 
         let val = await contract.balanceOf(contractAddress);
         console.log('val: ', val);
