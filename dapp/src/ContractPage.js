@@ -16,7 +16,7 @@ function ContractPage() {
 
     useEffect(() => {
         console.log('=== useEffect ===');
-        // 메타마스크 다른 account 연결시, account 재연결 
+        // 메타마스크 다른 account 연결시, account 재연결
         window
             .ethereum
             .on('accountsChanged', function (accounts) {
@@ -82,16 +82,17 @@ function ContractPage() {
     const getCurrentVal = async () => {
         updateEthers();
 
-        const balance = await provider.getBalance(contractAddress);
-        let balance2 = ethers
-            .utils
-            .formatEther(balance);
-        console.log('balance: ', balance);
-        console.log('balance2: ', balance2);
+        // const balance = await provider.getBalance(contractAddress); 
+        // balance); console.log('balance2: ', balance2);
+        console.log('contract: ', contract);
+        console.log('defaultAccount: ', defaultAccount);
+        let tempVal = await contract.balanceOf(defaultAccount);
+        let balance =ethers.utils.formatEther(tempVal); 
 
-        // let val = await contract.balanceOf(contractAddress); console.log('val: ',
-        // val); console.log('val: ', val._hex); setCurrentContractVal(val);  let val =
-        // await contract.get(); setCurrentContractVal(val);
+        // // console.log('val: ', val._hex);
+        setCurrentContractVal(balance);
+        // let val = await contract.get();
+        // setCurrentContractVal(val);
     }
 
     const handleTransfer = (event) => {
